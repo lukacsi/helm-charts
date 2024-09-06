@@ -3,14 +3,14 @@ entries:
   stunner-neko:
   - apiVersion: v2
     appVersion: 0.1.2
-    created: "2024-09-06T16:18:02.862295696+02:00"
+    created: "2024-09-06T16:22:22.945221145+02:00"
     dependencies:
     - condition: stunner.install
       name: stunner-gateway-operator
       repository: https://l7mp.io/stunner
       version: 0.19.0
     description: A Helm chart for Kubernetes
-    digest: fbf01117b71676b9d0999b96055b8017cced48137075637e3ce69d8142a40f6a
+    digest: e05a4947b28c322e943c67b515ddb2ca216093efec6b264cbff5c51d7ee76541
     name: stunner-neko
     type: application
     urls:
@@ -18,17 +18,32 @@ entries:
     version: 0.1.4
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2024-09-06T16:18:02.857507966+02:00"
+    created: "2024-09-06T16:22:22.936276276+02:00"
     dependencies:
     - condition: stunner.install
       name: stunner-gateway-operator
       repository: https://l7mp.io/stunner
       version: 0.19.0
     description: A Helm chart for Kubernetes
-    digest: d98b6f1de52d453decb8271001a85effc397115f334908f27313a41ec8a664b4
+    digest: 77de2decc855db8b94f48b5bdfd360aa652843c29f62100027898b311d3662fd
     name: stunner-neko
     type: application
     urls:
     - https://lukacsi.github.io/helm-charts/charts/stunner-neko-0.1.0.tgz
     version: 0.1.0
-generated: "2024-09-06T16:18:02.84865364+02:00"
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2024-09-06T16:22:22.940998271+02:00"
+    dependencies:
+    - condition: stunner.install
+      name: stunner-gateway-operator
+      repository: https://l7mp.io/stunner
+      version: 0.19.0
+    description: A Helm chart for Kubernetes
+    digest: d5a7c7b65b08ac381dee7b309f36257e325d443d8af423c6f0f518bc42a8563f
+    name: stunner-neko
+    type: application
+    urls:
+    - https://lukacsi.github.io/helm-charts/charts/stunner-neko-0.1.00.tgz
+    version: 0.1.0
+generated: "2024-09-06T16:22:22.92865006+02:00"
