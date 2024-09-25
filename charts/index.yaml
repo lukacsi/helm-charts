@@ -3,7 +3,23 @@ entries:
   neko:
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2024-09-24T09:37:43.200101166+02:00"
+    created: "2024-09-25T11:30:58.075345456+02:00"
+    dependencies:
+    - condition: stunner.install
+      name: stunner-gateway-operator
+      repository: https://l7mp.io/stunner
+      version: 0.19.0
+    description: A Helm chart for Kubernetes
+    digest: 82c037a380246225f82c920ea2f68e2f47c5fbc075309cc53070494768a17a51
+    icon: https://github.com/m1k1o/neko/blob/2cd4957472ce9439cec8bf95b527e4eb9d12fec4/docs/_media/favicon-32x32.png?raw=true
+    name: neko
+    type: application
+    urls:
+    - neko-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2024-09-25T11:30:58.071657576+02:00"
     dependencies:
     - condition: stunner.install
       name: stunner-gateway-operator
@@ -19,7 +35,7 @@ entries:
     version: 0.1.2
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2024-09-24T09:37:43.196731279+02:00"
+    created: "2024-09-25T11:30:58.067579889+02:00"
     dependencies:
     - condition: stunner.install
       name: stunner-gateway-operator
@@ -35,7 +51,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2024-09-24T09:37:43.193542324+02:00"
+    created: "2024-09-25T11:30:58.063338555+02:00"
     dependencies:
     - condition: stunner.enabled
       name: stunner-gateway-operator
@@ -51,7 +67,7 @@ entries:
   stunner-neko:
   - apiVersion: v2
     appVersion: 0.1.2
-    created: "2024-09-24T09:37:43.203433592+02:00"
+    created: "2024-09-25T11:30:58.078135133+02:00"
     dependencies:
     - condition: stunner.install
       name: stunner-gateway-operator
@@ -64,4 +80,4 @@ entries:
     urls:
     - stunner-neko-0.1.4.tgz
     version: 0.1.4
-generated: "2024-09-24T09:37:43.189677964+02:00"
+generated: "2024-09-25T11:30:58.058121346+02:00"
