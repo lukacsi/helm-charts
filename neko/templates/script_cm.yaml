@@ -1,0 +1,30 @@
+{{- if .Values.ipset }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.initScriptConfigMap }}
+data:
+  update-env.sh: |
+    #!/bin/bash
+
+    STUNNERIP=""
+    while [ -z "$STUNNERIP" ]; do
+      STUNNERIP=$(kubectl get service {{ include "neko.fullname" . }}-udp-gateway -n {{ .Release.Namespace }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+      if [ -z "$STUNNERIP" ]; then
+        echo "Waiting for external IP..."
+        sleep 10
+      fi
+    done
+
+    PARENT_UID=$(kubectl get deployment -n {{ .Release.Namespace }} {{ include "neko.fullname" . }} -o jsonpath="{.metadata.uid}")
+
+    kubectl create configmap {{ .Values.configMapName }} \
+      --from-literal=NEKO_ICESERVERS="[{\"urls\": [\"turn:${STUNNERIP}:3478?transport=udp\"], \"username\": \"user-1\", \"credential\": \"pass-1\", \"iceTransportPolicy\": \"all\"}]" \
+      --dry-run=client -o json | jq '.metadata.ownerReferences = [{
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "{{ include "neko.fullname" . }}",
+        "uid": "'"$PARENT_UID"'"
+      }]' | kubectl apply -n {{ .Release.Namespace }} -f -
+
+{{- end }}

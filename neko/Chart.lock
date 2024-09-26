@@ -1,0 +1,6 @@
+dependencies:
+- name: stunner-gateway-operator
+  repository: https://l7mp.io/stunner
+  version: 0.19.0
+digest: sha256:879da35a39d22bfcf5909b7bbadd31959284cf4a416f5a5b30f8cb8ef383d7e4
+generated: "2024-09-24T08:32:37.120124005+02:00"

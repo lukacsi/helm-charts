@@ -1,0 +1,50 @@
+# Enable if stunner-gateway-operator should be installed with the chart
+stunnerInstall: true
+
+image:
+  repository: docker.io/m1k1o/neko
+  tag: firefox
+  pullPolicy: IfNotPresent
+
+neko:
+  screen: 1280x720@30
+  password: neko
+  adminPassword: admin
+  epr: 62001-62002
+  icelite: false
+
+configMapName: neko-iceserver
+initScriptConfigMap: init-script
+
+
+service:
+  type: LoadBalancer
+  port: 8080
+  udpPorts:
+    - 62001
+    - 62002
+
+
+ingress:
+  enabled: true
+  ingressClassName: "nginx"
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+  hosts:
+    - host: neko.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+
+ipset: true
+
+serviceAccount:
+  name: neko-iceserver-sa
+
+roles:
+  configMapUpdater:
+    name: neko-cm
+  serviceViewer:
+    name: neko-svc-viewer
+  deploymentViewer:
+    name: neko-dep-viewer

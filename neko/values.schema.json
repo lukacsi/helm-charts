@@ -1,0 +1,180 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+      "stunnerInstall": {
+        "type": "boolean",
+        "form": true,
+        "title": "Install Stunner",
+        "description": "Install stunner-gateway-operator dependency",
+        "default": true
+      },
+      "ipset": {
+        "type": "boolean",
+        "form": true,
+        "title": "Enable iceserver ip aquisition",
+        "description": "Automatically set up iceserver ip. !!THIS WILL CREATE SERVICEACCOUNT WITH ACCESS ROLES!!",
+        "default": true
+      },
+      "service": {
+        "type": "object",
+        "form": true,
+        "title": "Service Configuration",
+        "description": "Configure the Kubernetes service for the application.",
+        "properties": {
+          "type": {
+            "type": "string",
+            "form": true,
+            "title": "Service Type",
+            "description": "Type of the service to create. Choose between ClusterIP, NodePort, or LoadBalancer.",
+            "default": "LoadBalancer",
+            "enum": ["ClusterIP", "NodePort", "LoadBalancer"]
+          },
+          "port": {
+            "type": "integer",
+            "form": true,
+            "title": "Service Port",
+            "description": "The port number exposed by the service.",
+            "default": 8080,
+            "minimum": 1,
+            "maximum": 65535
+          }
+        },
+        "required": ["type", "port"]
+      },
+      "ingress": {
+        "type": "object",
+        "form": true,
+        "title": "Ingress Configuration",
+        "description": "Configure ingress for your application.",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "form": true,
+            "title": "Enable Ingress",
+            "default": false,
+            "description": "Enable or disable the ingress resource."
+          },
+          "ingressClassName": {
+            "type": "string",
+            "form": true,
+            "title": "Ingress Class Name",
+            "default": "nginx",
+            "description": "Specify the ingress class (e.g., nginx, traefik). Leave empty for the default ingress class.",
+            "hidden": {
+              "value": false,
+              "path": "ingress/enabled"
+            }
+          },
+          "annotations": {
+            "type": "object",
+            "form": true,
+            "title": "Ingress Annotations",
+            "description": "Optional annotations for the ingress resource.",
+            "additionalProperties": {
+              "type": "string",
+              "form": true
+            },
+            "hidden": {
+              "value": false,
+              "path": "ingress/enabled"
+            }
+          },
+          "hosts": {
+            "type": "array",
+            "form": true,
+            "title": "Ingress Hosts",
+            "description": "List of hosts for routing traffic to the service.",
+            "hidden": {
+              "value": false,
+              "path": "ingress/enabled"
+            },
+            "items": {
+              "type": "object",
+              "form": true,
+              "properties": {
+                "host": {
+                  "type": "string",
+                  "form": true,
+                  "title": "Host",
+                  "description": "The hostname for the ingress (e.g., neko.example.com).",
+                  "default": "neko.example.com"
+                },
+                "paths": {
+                  "type": "array",
+                  "form": true,
+                  "title": "Paths",
+                  "description": "Paths to route traffic to the service.",
+                  "items": {
+                    "type": "object",
+                    "form": true,
+                    "properties": {
+                      "path": {
+                        "type": "string",
+                        "form": true,
+                        "title": "Path",
+                        "description": "Path for the ingress (e.g., /).",
+                        "default": "/"
+                      },
+                      "pathType": {
+                        "type": "string",
+                        "form": true,
+                        "title": "Path Type",
+                        "description": "Path type (e.g., Prefix, Exact).",
+                        "default": "Prefix"
+                      }
+                    },
+                    "required": ["path", "pathType"]
+                  }
+                }
+              },
+              "required": ["host", "paths"]
+            }
+          }
+        },
+        "required": ["enabled"]
+      },
+      "neko": {
+        "type": "object",
+        "form": true,
+        "title": "Neko Configuration",
+        "properties": {
+          "screen": {
+            "type": "string",
+            "form": true,
+            "title": "Screen resolution",
+            "description": "Specify the screen resolution (e.g., 1280x720@30)",
+            "default": "1280x720@30"
+          },
+          "password": {
+            "type": "string",
+            "form": true,
+            "title": "User Password",
+            "description": "Password to access Neko",
+            "default": "neko"
+          },
+          "adminPassword": {
+            "type": "string",
+            "form": true,
+            "title": "Admin Password",
+            "description": "Admin password to access Neko",
+            "default": "admin"
+          }
+        }
+      },
+      "image": {
+        "type": "object",
+        "form": true,
+        "title": "Image Configuration",
+        "properties": {
+          "tag": {
+            "type": "string",
+            "form": true,
+            "title": "Image Tag",
+            "description": "The tag of the image to be used",
+            "default": "firefox"
+          }
+        }
+      }
+    }
+}

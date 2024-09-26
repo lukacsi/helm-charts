@@ -1,0 +1,53 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: {{ include "neko.fullname" . }}-stunner-gatewayclass
+  labels:
+  {{- include "neko.labels" . | nindent 4 }}
+spec:
+  controllerName: stunner.l7mp.io/gateway-operator
+  description: STUNner is a WebRTC ingress gateway for Kubernetes
+  parametersRef:
+    group: stunner.l7mp.io
+    kind: GatewayConfig
+    name: {{ include "neko.fullname" . }}-stunner-gatewayconfig
+    namespace: {{ .Release.Namespace }}
+---
+apiVersion: stunner.l7mp.io/v1
+kind: GatewayConfig
+metadata:
+  name: {{ include "neko.fullname" . }}-stunner-gatewayconfig
+  labels:
+  {{- include "neko.labels" . | nindent 4 }}
+spec:
+  authType: static
+  password: pass-1
+  realm: stunner.l7mp.io
+  userName: user-1
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: {{ include "neko.fullname" . }}-udp-gateway
+  labels:
+  {{- include "neko.labels" . | nindent 4 }}
+spec:
+  gatewayClassName: {{ include "neko.fullname" . }}-stunner-gatewayclass
+  listeners:
+  - name: udp-listener
+    port: 3478
+    protocol: TURN-UDP
+---
+apiVersion: stunner.l7mp.io/v1
+kind: UDPRoute
+metadata:
+  name: {{ include "neko.fullname" . }}-plane
+  labels:
+  {{- include "neko.labels" . | nindent 4 }}
+spec:
+  parentRefs:
+  - name: {{ include "neko.fullname" . }}-udp-gateway
+  rules:
+  - backendRefs:
+    - name: {{ include "neko.fullname" . }}-udp
+      namespace: {{ .Release.Namespace }}

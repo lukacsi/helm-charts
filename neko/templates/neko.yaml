@@ -1,0 +1,131 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "neko.fullname" . }}
+  labels:
+    app: {{ include "neko.name" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "neko.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "neko.name" . }}
+    spec:
+      {{- if .Values.ipset }}
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+      initContainers:
+      - name: env-setup
+        image: bitnami/kubectl:latest
+        command: ["bash", "/init-script/update-env.sh", "exit"]
+        volumeMounts:
+        - name: script-volume
+          mountPath: /init-script
+      {{- end }}
+      containers:
+      - name: neko
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        env:
+        - name: NEKO_SCREEN
+          value: "{{ .Values.neko.screen }}"
+        - name: NEKO_PASSWORD
+          value: "{{ .Values.neko.password }}"
+        - name: NEKO_PASSWORD_ADMIN
+          value: "{{ .Values.neko.adminPassword }}"
+        - name: NEKO_EPR
+          value: "{{ .Values.neko.epr }}"
+        - name: NEKO_ICELITE
+          value: "{{ .Values.neko.icelite }}"
+        - name: NEKO_NAT1TO1
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        {{- if .Values.ipset }}
+        envFrom:
+        - configMapRef:
+            name: {{ .Values.configMapName }}
+        {{- end }}
+        ports:
+        - name: http
+          containerPort: {{ .Values.service.port }}
+          protocol: TCP
+        - name: udp-one
+          containerPort: {{ index .Values.service.udpPorts 0 }}
+          protocol: UDP
+        - name: udp-two
+          containerPort: {{ index .Values.service.udpPorts 1 }}
+          protocol: UDP
+      {{- if .Values.ipset }}
+      volumes:
+      - name: script-volume
+        configMap:
+          name: {{ .Values.initScriptConfigMap }}
+      {{- end }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "neko.fullname" . }}-tcp
+  labels:
+    run: {{ include "neko.name" . }}-tcp
+spec:
+  ports:
+  - port: {{ .Values.service.port | default 8080 }}
+    protocol: TCP
+  selector:
+    app: {{ include "neko.name" . }}
+  type: {{ .Values.service.type | default "LoadBalancer" }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "neko.fullname" . }}-udp
+  labels:
+    app: {{ include "neko.name" . }}-udp
+spec:
+  ports:
+  - port: {{ index .Values.service.udpPorts 0 }}
+    protocol: UDP
+    name: udp-one
+  - port: {{ index .Values.service.udpPorts 1 }}
+    protocol: UDP
+    name: udp-two
+  selector:
+    app: {{ include "neko.name" . }}
+---
+{{- if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "neko.fullname" . }}-ingress
+  labels:
+    {{- include "neko.labels" . | nindent 4 }}
+  {{- if .Values.ingress.annotations }}
+  annotations:
+    {{- range $key, $value := .Values.ingress.annotations }}
+      {{ $key }}: {{ $value | quote }}
+    {{- end }}
+  {{- end }}
+spec:
+  {{- if .Values.ingress.ingressClassName }}
+  ingressClassName: {{ .Values.ingress.ingressClassName | quote }}
+  {{- end }}
+  rules:
+    {{- range .Values.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ .path }}
+            pathType: {{ .pathType | default "Prefix" | quote }}
+            backend:
+              service:
+                name: {{ include "neko.fullname" $ }}-tcp
+                port:
+                  number: {{ $.Values.service.port }}
+          {{- end }}
+    {{- end }}
+{{- end }}

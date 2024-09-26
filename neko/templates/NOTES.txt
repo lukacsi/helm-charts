@@ -1,0 +1,16 @@
+{{- if .Values.ipset }}
+The STUNner ip will be set up automatically once the udp gateway comes online!
+{{- else }}
+Automatic STUNner ip setting is disabled, you will need to set the ip manually, to do so, run the following script:
+
+    STUNNERIP=""; while [ -z "$STUNNERIP" ]; do STUNNERIP=$(kubectl get service {{ include "neko.fullname" . }}-udp-gateway -n {{ .Release.Namespace }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}'); if [ -z "$STUNNERIP" ]; then echo "Waiting for external IP..."; sleep 10; fi; done; kubectl set env -n {{ .Release.Namespace }} deployment/{{ include "neko.fullname" . }} NEKO_ICESERVERS="[{\"urls\": [\"turn:${STUNNERIP}:3478?transport=udp\"], \"username\": \"user-1\", \"credential\": \"pass-1\", \"iceTransportPolicy\": \"all\"}]"; kubectl rollout restart -n {{ .Release.Namespace }} deployment {{ include "neko.fullname" . }}
+
+What it does:
+Waits for the ip of the udp gateway.
+Sets up the NEKO_ICESERVERS environvent variable with the ip.
+Restart the deployment with the new environvent variable.
+{{- end }}
+
+To cleanup:
+helm uninstall {{ .Release.Name }} -n {{ .Release.Namespace }}
+kubernetes delete ns {{ .Release.Namespace }}
