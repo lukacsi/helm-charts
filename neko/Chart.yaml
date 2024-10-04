@@ -25,6 +25,7 @@ icon: "https://github.com/m1k1o/neko/blob/2cd4957472ce9439cec8bf95b527e4eb9d12fe
 sources:
   - https://github.com/lukacsi/helm-charts
   - https://github.com/l7mp/stunner
+  - https://neko.m1k1o.net/
 
 dependencies:
   - name: stunner-gateway-operator
