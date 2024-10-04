@@ -26,12 +26,12 @@ service:
 
 
 ingress:
-  enabled: true
+  enabled: false
   ingressClassName: "nginx"
   annotations:
     kubernetes.io/ingress.class: "nginx"
   hosts:
-    - host: neko.example.com
+    - host: neko.192.168.49.2.nip.io
       paths:
         - path: /
           pathType: Prefix
