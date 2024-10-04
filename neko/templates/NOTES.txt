@@ -13,10 +13,22 @@ Restart the deployment with the new environvent variable.
 
 {{- end }}
 {{- if .Values.ingress.enabled }}
-Ingress is enabled.
-Access your application at http://{{ .Values.ingress.hosts.host }}
+  {{- if .Values.ingress.hosts }}
+    {{- range $host := .Values.ingress.hosts }}
+    Access your application at:
 
+    Host: http://{{ $host.host }}
+
+    Path: {{ (index $host.paths 0).path }}
+
+    {{- end }}
+  {{- else }}
+    Ingress is enabled but no hosts are specified.
+  {{- end }}
+{{- else }}
+  Ingress is not enabled. Please access the application using the LoadBalancer IP or NodePort.
 {{- end }}
+
 To cleanup:
 helm uninstall {{ .Release.Name }} -n {{ .Release.Namespace }}
 kubectl delete ns {{ .Release.Namespace }}
