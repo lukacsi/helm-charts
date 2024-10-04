@@ -14,7 +14,7 @@ Restart the deployment with the new environvent variable.
 {{- end }}
 {{- if .Values.ingress.enabled }}
 Ingress is enabled.
-You can acces neko at: http: {{ .Values.ingress.hosts[0].host }}
+Access your application at http://{{ .Values.ingress.hosts.host }}
 
 {{- end }}
 To cleanup:
