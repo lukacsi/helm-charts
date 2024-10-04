@@ -3,7 +3,26 @@ entries:
   neko:
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2024-10-04T14:51:57.773965674+02:00"
+    created: "2024-10-04T15:05:02.137531075+02:00"
+    dependencies:
+    - condition: stunnerInstall
+      name: stunner-gateway-operator
+      repository: https://l7mp.io/stunner
+      version: 0.19.0
+    description: Helm chart that has n.eko with STUNner configured
+    digest: e46f654a9d3888c0cbfa11865bfd0a92498d3a7f52ae2598e16335b057c3e9f7
+    icon: https://github.com/m1k1o/neko/blob/2cd4957472ce9439cec8bf95b527e4eb9d12fec4/docs/_media/favicon-32x32.png?raw=true
+    name: neko
+    sources:
+    - https://github.com/lukacsi/helm-charts
+    - https://github.com/l7mp/stunner
+    type: application
+    urls:
+    - neko-0.2.7.tgz
+    version: 0.2.7
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2024-10-04T15:05:02.13331271+02:00"
     dependencies:
     - condition: stunnerInstall
       name: stunner-gateway-operator
@@ -22,7 +41,7 @@ entries:
     version: 0.2.6
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2024-10-04T14:51:57.769886309+02:00"
+    created: "2024-10-04T15:05:02.128833758+02:00"
     dependencies:
     - condition: stunnerInstall
       name: stunner-gateway-operator
@@ -41,7 +60,7 @@ entries:
     version: 0.2.5
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2024-10-04T14:51:57.766189583+02:00"
+    created: "2024-10-04T15:05:02.12513767+02:00"
     dependencies:
     - condition: stunnerInstall
       name: stunner-gateway-operator
@@ -57,7 +76,7 @@ entries:
     version: 0.2.4
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2024-10-04T14:51:57.762167506+02:00"
+    created: "2024-10-04T15:05:02.121220726+02:00"
     dependencies:
     - condition: stunnerInstall
       name: stunner-gateway-operator
@@ -73,7 +92,7 @@ entries:
     version: 0.2.3
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2024-10-04T14:51:57.758066446+02:00"
+    created: "2024-10-04T15:05:02.117181635+02:00"
     dependencies:
     - condition: stunner.install
       name: stunner-gateway-operator
@@ -89,7 +108,7 @@ entries:
     version: 0.2.2
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2024-10-04T14:51:57.750571836+02:00"
+    created: "2024-10-04T15:05:02.113413399+02:00"
     dependencies:
     - condition: stunner.install
       name: stunner-gateway-operator
@@ -105,7 +124,7 @@ entries:
     version: 0.2.1
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2024-10-04T14:51:57.746695594+02:00"
+    created: "2024-10-04T15:05:02.109247363+02:00"
     dependencies:
     - condition: stunner.install
       name: stunner-gateway-operator
@@ -121,7 +140,7 @@ entries:
     version: 0.2.0
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2024-10-04T14:51:57.742854729+02:00"
+    created: "2024-10-04T15:05:02.105383995+02:00"
     dependencies:
     - condition: stunner.install
       name: stunner-gateway-operator
@@ -137,7 +156,7 @@ entries:
     version: 0.1.2
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2024-10-04T14:51:57.738832598+02:00"
+    created: "2024-10-04T15:05:02.101782031+02:00"
     dependencies:
     - condition: stunner.install
       name: stunner-gateway-operator
@@ -153,7 +172,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2024-10-04T14:51:57.734829916+02:00"
+    created: "2024-10-04T15:05:02.097635729+02:00"
     dependencies:
     - condition: stunner.enabled
       name: stunner-gateway-operator
@@ -166,4 +185,4 @@ entries:
     urls:
     - neko-0.1.0.tgz
     version: 0.1.0
-generated: "2024-10-04T14:51:57.729941266+02:00"
+generated: "2024-10-04T15:05:02.093390289+02:00"
