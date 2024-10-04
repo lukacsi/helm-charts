@@ -1,5 +1,6 @@
 {{- if .Values.ipset }}
 The STUNner ip will be set up automatically once the udp gateway comes online!
+
 {{- else }}
 Automatic STUNner ip setting is disabled, you will need to set the ip manually, to do so, run the following script:
 
@@ -9,8 +10,13 @@ What it does:
 Waits for the ip of the udp gateway.
 Sets up the NEKO_ICESERVERS environvent variable with the ip.
 Restart the deployment with the new environvent variable.
-{{- end }}
 
+{{- end }}
+{{- if .Values.ingress.enabled }}
+Ingress is enabled.
+You can acces neko at: http: {{ .Values.ingress.hosts[0].host }}
+
+{{- end }}
 To cleanup:
 helm uninstall {{ .Release.Name }} -n {{ .Release.Namespace }}
-kubernetes delete ns {{ .Release.Namespace }}
+kubectl delete ns {{ .Release.Namespace }}
