@@ -93,3 +93,11 @@ STUNNERIP=""; while [ -z "$STUNNERIP" ]; do STUNNERIP=$(kubectl get service my-r
 Waits for the ip of the udp gateway.
 Sets up the NEKO_ICESERVERS environvent variable with the ip.
 Restart the deployment with the new environvent variable.
+
+## Todo
+
+`❌` rename tag to app and add enums to scheme.
+
+`❌` Comment template
+
+`❌` more info for ipset
