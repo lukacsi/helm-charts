@@ -1,7 +1,7 @@
 # n.eko with STUNner example configuration
 
 This Helm chart deploys the n.eko remote browser application along **STUNner**, a WebRTC media relay server, to help manage the deployment of n.eko.
-**THIS IS NOT A DEMO AND SHOULD NOT BE USED IN A PRODUCTION ENVIRONMENT**
+**THIS IS A DEMO AND SHOULD NOT BE USED IN A PRODUCTION ENVIRONMENT**
 
 ## Prerequisites
 
